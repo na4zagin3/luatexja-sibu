@@ -45,7 +45,7 @@
 \addjfontfeatures{TateFeatures = { JFM=sibuv }}
 \sibuLineLength{20}
 
-\sibuNoalign{Lua\LaTeX}で\ltjruby{二分}{にぶ}アケ組してみるテスト。
+\sibuNoalign{Lua\LaTeX}で二分アケ組してみるテスト。
 
 ああああああああああ
 あああああああああ\allowbreak あ
@@ -58,28 +58,28 @@
 あ「あ」
 
 あ「あ」「あ」「あ」「あ」「あ」「あ」「あ」「あ」「あ」「あ」
-「あ」「あ」「あ」（鉤括弧の調整が必要）
+「あ」「あ」「あ」（ルビも\ltjruby{鉤|括|弧}{かぎ|かっ|こ}も\ltjruby{修|正}{しう|せい}が\ltjruby{必|要}{ひつ|えう}）
 
 \sibuNoalign{Lua\LaTeX}で
 \sibuNoalign{JFM}を
 弄ったり、
-\sibuNoalign{\texttt{zref-savepos.sty}}を使ったり
+\sibuNoalign{\texttt{zref-savepos.sty}}、\\
+\sibuNoalign{\texttt{luatexja-ruby.sty}}を使ったり
 して二分アケ組してみています。
 
-あああああああああああああああああ\sibuNoalign{abc ii}ああ
+正直言って、和文と欧文を二分アキで組み合わせる際の規則を知らないので、
+適当に良さそうな方法を執っています。
 
-あああああああああああああああああああ\sibuNoalign{abc wii}ああ
 
-あああああああああああああああああ\sibuNoalign{a-a-a-a-a-a-a}ああ
-
-\sibuNoalign{\textgreek{Ὅμηρος}}%
-あ。あ。あ。あ。あ。あ。あ。あ。あ。あ。%
-あ。あ。あ。あ。あ。あ。あ。あ。あ。あ。%
-あ。あ。あ。あ。あ。あ。あ。あ。あ。あ。%
-
-あ「あ「あ「あ「あ「あ「あ「あ「あ「あ「%
-あ「あ「あ「あ「あ「あ「あ「あ「あ「あ「%
-あ「あ「あ「あ「あ「あ「あ「あ「あ「あ「%
+希臘語の叙事詩
+『\sibuNoalign{\textgreek{Ἰλιας}}』%
+と
+『\sibuNoalign{\textgreek{Ὀδύσσεια}}』%
+は
+ホメロス\sibuNoalign{\textgreek{Ὅ\-μη\-ρος}}%
+の作であるとされている。
+このように\sibuNoalign{Hy\-phen\-ation}も働く。
+（ハイフンの高さが変）
 
 \widthof{ああ}
 \widthof{あ「あ}
@@ -103,33 +103,24 @@
 ああああああああああ
 
 ああ\rule{\intcalcShr{\zw} sp}{1pt}\rule{\intcalcSub{\zw}{\intcalcShr{\zw}} sp}{1pt}%
-ああああああああああ
-
 ああ\sibuNoalign{}%
-ああああああああああ
-
 ああ\sibuNoalign{A}%
-ああああああああああ
-
 ああ\sibuNoalign{AA}%
-ああああああああああ
-
 ああ\sibuNoalign{AAA}%
-ああああああああああ
-
 ああ\sibuNoalign{AAAA}%
-ああああああああああ
-
 ああ\sibuNoalign{AAAAA}%
-ああああああああああ
 
+ハンドヘルド・コンピューター
+ああああああああああ
+あ「『あ』・『あ』」あああああああ
+ああああああああああ
+あああ』『あああああ『』ああ
+あああ。「あああ。。あああああ
 
-ああああああああああ
-ああああああああああ
-ああああああああああ
-ああああああああああ
-ああああああああああ
-ああああああああああ
+あああ、『あああああ、、ああ
+あああ、。「ああ——あ。。あああああ
+
+あああ？あ？「ああ？——あ。。あああああ
 
 近年，\sibuNoalign{IoT}アプリケーションなど，ますます多様なアプリケーションが開発されている．それらの組込みシステムは，ポータブルであることが重要な設計要件\sibuNoalign{IoT}であり\sibuNoalign{IoT}，そのために小型かつ低消費電力な回路設計が求められる．また，収集したデータの活用方法が，システム運用後に変更される可能性があるため，ある程度の汎用性を持つプロセッサを用いて構築されるべきである．
 
