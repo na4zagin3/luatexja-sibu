@@ -82,8 +82,8 @@
 		\intcalcSub{\value{sibuunit}}{\intcalcMod{\intcalcAdd{#1}{\value{sibugap}}}{\value{sibuunit}}}%
 }
 \newcommand{\sibuInsertSpace}[1]{%
-	%\hspace*{#1}%
-	\rule{#1}{1pt}%
+	\hspace*{#1}%
+	%\rule{#1}{1pt}%
 }
 % 01234567890123456789012345678901234567890123456789012345678901234567890123456789
 % |--gap--->--------zw------->--gap--->--------zw------->--gap--->--------zw------->--gap--->--------zw------->--gap--->--------zw------->
@@ -91,13 +91,17 @@
 % |        |--real length------------------------------------------>----space------>
 % |                          |                          |---mod---->               |
 \newcommand{\JAspace}{%
+	\sibubegin%
 	\ifvmode
 		\sibu@sethead{1}%
 	\else
 		\sibu@sethead{0}%
 	\fi
-	\sibubegin%
 	\GetPositionInLine
+	\ifnum\numexpr
+		\PILLeft=0\relax % 行頭
+		\sibu@sethead{1}%
+	\fi
 	\typeout{sibu: pre: \the\PILLeft / \the\PILRight}%
 	\edef\sibuTotalSpace{\sibuCalcSpace{\intcalcSub{\sibuendx}{\sibubeginx}}}%
 	%\hspace*{\intcalcShr{\@tempcnta}sp}%
