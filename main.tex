@@ -1,0 +1,149 @@
+\documentclass[12pt,landscape]{ltjtarticle}
+
+\usepackage{fontspec}
+\usepackage{calc}
+\usepackage{luatexja-fontspec}
+\usepackage{luatexja-ruby}
+\ExplSyntaxOff
+\usepackage[ipa,deluxe]{luatexja-preset}
+\usepackage{comment}
+\usepackage{siunitx}
+
+\usepackage{etoolbox}
+\usepackage{geometry}
+\usepackage{bxposinline}
+\usepackage{intcalc}
+\usepackage[user,savepos]{zref}
+
+\usepackage{luatexja-quater}
+\newcommand{\bitrev}{\mathord{\circleddash}}
+\newcommand{\bitrevr}{\mathord{\circleddash}}
+\newcommand{\rsubleq}{subleq\textsubscript{⊖}}
+\newcommand{\Rsubleq}{Subleq\textsubscript{⊖}}
+
+%\sibuLineLength{20}
+
+\setmainjfont[TateFeatures = { JFM=sibuv }]{IPAMincho}
+%\ltjsetparameter{kanjiskip=0.25\zw plus 0pt minus 0pt, xkanjiskip=0.25\zw plus 0.75\zw minus 0.25\zw}
+\ltjsetparameter{kanjiskip=0.5\zw plus 0pt minus 0pt, xkanjiskip=0\zw plus 0pt minus 0pt}
+\setlength{\parindent}{\value{sibuunit}sp}
+%\ltjsetparameter{kanjiskip=0.5\zw plus 0pt minus 0pt, xkanjiskip=0.5\zw plus 2\zw minus 0.5\zw}
+
+
+\usepackage{polyglossia}
+\setotherlanguage[variant=ancient]{greek}
+\ltjsetparameter{jacharrange={-2,-3,-8}}
+\newfontfamily\greekfont[Script=Greek,Ligatures={TeX,Contextual}]{Junicode}
+%\newfontfamily\greekfont[Script=Greek,Ligatures={TeX,Common,Contextual,Rare,Historic}]{Asea}
+%\newfontfamily\greekfont[Script=Greek,Ligatures={TeX,NoCommon}]{Times Italic}
+%\newfontfamily\germanfont[Script=Latin,Language=German,Mapping=tex-text,Numbers=OldStyle,CharacterVariant={11,13,14},Ligatures=Historic]{UnifrakturMaguntia}
+%\newfontfamily\germanfontsf[Script=Latin,Language=German,Mapping=tex-text,CharacterVariant={11,13,14}]{UnifrakturCook}
+%\setsansfont[Script=Latin,Language=German,Mapping=tex-text,CharacterVariant={11,13,14}]{UnifrakturCook}
+
+
+\begin{document}
+\addjfontfeatures{TateFeatures = { JFM=sibuv }}
+\sibuLineLength{20}
+
+\sibuNoalign{Lua\LaTeX}で\ltjruby{二分}{にぶ}アケ組してみるテスト。
+
+ああああああああああ
+あああああああああ\allowbreak あ
+あああああ\\
+あ。あ。あ。あ。あ。あ。あ。あ。あ。あ。
+あ。あ。あ。あ。あ。あ。あ。あ。あ。あ。
+
+あ「あ」あ「あ」あ「あ」あ「あ」あ「あ」
+あ「あ」あ「あ」あ「あ」あ「あ」あ「あ」
+あ「あ」
+
+あ「あ」「あ」「あ」「あ」「あ」「あ」「あ」「あ」「あ」「あ」
+「あ」「あ」「あ」（鉤括弧の調整が必要）
+
+\sibuNoalign{Lua\LaTeX}で
+\sibuNoalign{JFM}を
+弄ったり、
+\sibuNoalign{\texttt{zref-savepos.sty}}を使ったり
+して二分アケ組してみています。
+
+あああああああああああああああああ\sibuNoalign{abc ii}ああ
+
+あああああああああああああああああああ\sibuNoalign{abc wii}ああ
+
+あああああああああああああああああ\sibuNoalign{a-a-a-a-a-a-a}ああ
+
+\sibuNoalign{\textgreek{Ὅμηρος}}%
+あ。あ。あ。あ。あ。あ。あ。あ。あ。あ。%
+あ。あ。あ。あ。あ。あ。あ。あ。あ。あ。%
+あ。あ。あ。あ。あ。あ。あ。あ。あ。あ。%
+
+あ「あ「あ「あ「あ「あ「あ「あ「あ「あ「%
+あ「あ「あ「あ「あ「あ「あ「あ「あ「あ「%
+あ「あ「あ「あ「あ「あ「あ「あ「あ「あ「%
+
+\widthof{ああ}
+\widthof{あ「あ}
+\widthof{あ「あ}
+\widthof{あ「あ}
+\widthof{あ「あ}
+\widthof{あ「あ}
+\widthof{あ「あ}
+\widthof{あ「あ}
+\widthof{あ「あ}
+\widthof{あ「あ}
+
+ああああああああああ%
+ああああああああああ%
+ああああああああああ%
+
+あ「い」う「えお。」。
+あ「い」う「えお。」。
+
+ああ\rule{\zw}{1pt}%
+ああああああああああ
+
+ああ\rule{\intcalcShr{\zw} sp}{1pt}\rule{\intcalcSub{\zw}{\intcalcShr{\zw}} sp}{1pt}%
+ああああああああああ
+
+ああ\sibuNoalign{}%
+ああああああああああ
+
+ああ\sibuNoalign{A}%
+ああああああああああ
+
+ああ\sibuNoalign{AA}%
+ああああああああああ
+
+ああ\sibuNoalign{AAA}%
+ああああああああああ
+
+ああ\sibuNoalign{AAAA}%
+ああああああああああ
+
+ああ\sibuNoalign{AAAAA}%
+ああああああああああ
+
+
+ああああああああああ
+ああああああああああ
+ああああああああああ
+ああああああああああ
+ああああああああああ
+ああああああああああ
+
+近年，\sibuNoalign{IoT}アプリケーションなど，ますます多様なアプリケーションが開発されている．それらの組込みシステムは，ポータブルであることが重要な設計要件\sibuNoalign{IoT}であり\sibuNoalign{IoT}，そのために小型かつ低消費電力な回路設計が求められる．また，収集したデータの活用方法が，システム運用後に変更される可能性があるため，ある程度の汎用性を持つプロセッサを用いて構築されるべきである．
+
+上記の特徴を併せ持つ汎用的プロセッサとして，様々な単一命令セットコンピュータ (One-Instruction-Set Computer; OISC) が提案されている．
+\sibuNoalign{OISCは}チューリング完全で汎用性が高く，かつ，多くは単純な回路で構成できる．
+%チューリング完全性は汎用的なプロセッサにとっての必要条件である．
+% ポータブルな組込みシステム（特にウェアラブル）は小型化・低消費である必要
+%Mavaddatら提案したSubleq コンピュータ\,\cite{Mavaddat1988} はOSICの一例であり，
+\sibuNoalign{Jonesが}提案した\JAspace the Ultimate RISC\,\cite{Jones1988}\AJspace や
+\sibuNoalign{Corporaal}らが提案した\JAspace MOVE\,\cite{Corporaal1991,Corporaal1993}\AJspace のような
+演算器間で値をコビーする\sibuNoalign{Transport Triggered Architecture}や，%
+\sibuNoalign{Mazonka}が提案した\sibuNoalign{BitBitJump}%
+\cite{Mazonka2009}，
+%単一の，ビットアドレスのメモリを持ち，あるビットを別のビットにコピーし，ジャンプする%
+など，様々な\sibuNoalign{OISC}が提案されている．
+
+\end{document}

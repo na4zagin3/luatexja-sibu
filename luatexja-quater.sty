@@ -1,0 +1,196 @@
+% ltjquater.sty
+
+%% declaration
+\NeedsTeXFormat{LaTeX2e}
+\ProvidesPackage{ltjquater}[2016/01/23 v0.1]
+\def\bxqpi@pkgname{ltjquater}
+
+%% package
+\RequirePackage{zref-savepos}
+\RequirePackage{bxposinline}
+
+\RequirePackage{geometry}
+
+\RequirePackage{luatexja-ruby}
+
+%--------------------------------------- main
+
+% Variables
+\newcounter{sibucounter}
+\newcounter{sibuunit}
+\newcounter{sibugap}
+\newlength{\sibuspace}
+\setlength{\sibuspace}{0pt}
+\def\sibubeginx{0}
+\def\sibubeginy{0}
+\def\sibuendx{0}
+\def\sibuendy{0}
+
+
+\zref@newlist{Sibu}
+\zref@newprop{sibu@linetail}[0]{0}%
+\zref@newprop{sibu@linehead}[0]{0}%
+\zref@addprop{Sibu}{sibu@linetail}%
+\zref@addprop{Sibu}{sibu@linehead}%
+
+\newcommand{\sibubegin}{%
+	\addtocounter{sibucounter}{1}%
+	\setcounter{sibuunit}{\intcalcAdd{\zw}{\intcalcShr{\zw}}}%
+	\setcounter{sibugap}{\intcalcShr{\zw}}%
+	\def\sibubeginx{\sibugetx{begin}}%
+	\def\sibubeginy{\sibugety{begin}}%
+	\def\sibuendx{\sibugetx{end}}%
+	\def\sibuendy{\sibugety{end}}%
+	\def\sibu@ishead{%
+		\zref@extract{sibu:\arabic{sibucounter}}{sibu@linehead}%
+		%0%
+	}%
+	\def\sibu@sethead##1{%
+		\zref@setcurrent{sibu@linehead}{##1}%
+	}%
+	\def\sibu@isfinal{%
+		\zref@extract{sibu:\arabic{sibucounter}}{sibu@linetail}%
+		%0%
+	}%
+	\def\sibu@setfinal##1{%
+		\zref@setcurrent{sibu@linetail}{##1}%
+	}%
+}
+\newcommand{\sibuend}{%
+	\zref@labelbylist{sibu:\arabic{sibucounter}}{Sibu}%
+}
+\newcommand{\sibusavepos}[1]{%
+	\zsavepos{sibu:#1-\arabic{sibucounter}}%
+}
+\newcommand{\sibugetx}[1]{%
+	\zposx{sibu:#1-\arabic{sibucounter}}%
+}
+\newcommand{\sibugety}[1]{%
+%	\ifnum\numexpr
+%		\ltjgetparameter{direction}-(\ltjgetparameter{direction}/8)*8=3\relax
+%		\zposx{sibu-#1-\arabic{sibucounter}}%
+%	\else
+		\zposy{sibu:#1-\arabic{sibucounter}}%
+%	\fi
+}
+
+\newcommand{\sibuCalcSpace}[1]{
+		%
+		%\sibuTotalSpace,
+		\intcalcSub{\value{sibuunit}}{\intcalcMod{\intcalcAdd{#1}{\value{sibugap}}}{\value{sibuunit}}}%
+}
+\newcommand{\sibuInsertSpace}[1]{%
+	%\hspace*{#1}%
+	\rule{#1}{1pt}%
+}
+% 01234567890123456789012345678901234567890123456789012345678901234567890123456789
+% |--gap--->--------zw------->--gap--->--------zw------->--gap--->--------zw------->--gap--->--------zw------->--gap--->--------zw------->
+% |        |--real length------------------------------------------>----space------>
+% |        |--real length------------------------------------------>----space------>
+% |                          |                          |---mod---->               |
+\newcommand{\JAspace}{%
+	\ifvmode
+		\sibu@sethead{1}%
+	\else
+		\sibu@sethead{0}%
+	\fi
+	\sibubegin%
+	\GetPositionInLine
+	\edef\sibuTotalSpace{\sibuCalcSpace{\intcalcSub{\sibuendx}{\sibubeginx}}}%
+	%\hspace*{\intcalcShr{\@tempcnta}sp}%
+	\ifnum\numexpr
+		\sibu@ishead>0\relax % 行頭
+		\typeout{sibu: pre: line head}%
+		%\setlength{\sibuspace}{0sp}%
+		\ifnum\numexpr
+			\sibuendy=\sibubeginy\relax % 別の行
+			% 同一行：空白挿入
+				\typeout{sibu: pre: one line: \sibuTotalSpace sp will be inserted}%
+				\setlength{\sibuspace}{\sibuTotalSpace sp}%
+		%
+			\fi
+	\else
+		\sibuInsertSpace{\intcalcShr{\sibuTotalSpace} sp}%
+		\ifnum\numexpr
+			\sibuendy<\sibubeginy\relax % 別の行
+			% 別の行
+			\sibuInsertSpace{\fill}
+			\typeout{sibu: pre: insert filler (beyond line)}%
+			%\setlength{\sibuspace}{0sp}%
+	%
+		\else
+			\ifnum\numexpr
+				\sibu@isfinal>0\relax
+			% 同一行：末尾まで英字
+				%\sibuInsertSpace{\fill}
+				\sibuInsertSpace{\sibuspace}
+				\typeout{sibu: pre: insert filler (to the end of line)}%
+				\setlength{\sibuspace}{0sp}%
+			\else
+			% 同一行：空白挿入
+				\typeout{sibu: pre: one line: \sibuTotalSpace sp will be inserted}%
+				\setlength{\sibuspace}{\intcalcSub{\sibuTotalSpace}{\intcalcShr{\sibuTotalSpace}} sp}%
+		%
+			\fi
+		\fi
+	\fi
+	\sibusavepos{begin}%
+}
+
+\newcommand{\AJspace}{%
+	\sibusavepos{end}%
+	\GetPositionInLine
+	\typeout{\the\PILLeft / \the\PILRight}%
+	%\GetPositionInLine\typeout{\the\PILLeft / \the\PILRight}%
+	\ifnum\numexpr
+		\sibugety{end}<\sibugety{begin}\relax % 別の行
+		%\setlength{\sibuspace}{\sibuCalcSpace{\intcalcSub{\sibuendx}{\PILLeft}} sp}%
+		\setlength{\sibuspace}{\sibuCalcSpace{\PILLeft} sp}%
+		\typeout{sibu: post: after linebreak}%
+		\sibu@setfinal{0}%
+	\else
+	\ifnum\numexpr
+		\PILRight<\value{sibuunit}\relax % スペース無し
+		\setlength{\sibuspace}{0 sp}%
+		\typeout{sibu: post: no space to the end of line}%
+		\sibu@setfinal{1}%
+		%\sibusavepos{end}%
+	\else
+		\typeout{sibu: post: no linebreak}%
+		\sibu@setfinal{0}%
+	\fi
+	\fi
+	\ifdim\sibuspace>0pt\relax%
+		\typeout{sibu: post: insert space (\the\sibuspace)}%
+		\sibuInsertSpace{\sibuspace}%
+	\else%
+		\typeout{sibu: post: no space (\the\sibuspace)}%
+		%\sibuInsertSpace{0pt}%
+		%\allowbreak%
+	\fi%
+	\sibuend%
+}
+
+\newcommand{\sibuLineLength}[1]{%
+	\sibubegin
+	\newgeometry{textwidth={\intcalcSub{\intcalcMul{#1}{\value{sibuunit}}}{\value{sibugap}}sp}}%
+	\setlength{\parindent}{\value{sibuunit}sp}%
+	\sibuend
+	%\intcalcMul{#1}{\value{sibuunit}} sp%
+}
+
+\newcommand{\sibuNoalign}[1]{%
+	\typeout{sibu: "#1"}%
+\JAspace#1\AJspace}
+
+%--------------------------------------- setting for luatexja-ruby
+
+\ltjsetruby{
+	fontcmd=\addjfontfeatures{Style=Ruby, JFM=ujisv}
+}
+
+%--------------------------------------- setting for luatexja-ruby
+
+%--------------------------------------- done
+\endinput
+%% EOF
