@@ -99,14 +99,18 @@
 	\fi
 	\GetPositionInLine
 	\ifnum\numexpr
-		\PILLeft=0\relax % 行頭
+		\PILRight=0\relax% 行末
+		\sibu@sethead{1}%
+	\fi
+	\ifnum\numexpr
+		\PILLeft=0\relax% 行頭
 		\sibu@sethead{1}%
 	\fi
 	\typeout{sibu: pre: \the\PILLeft / \the\PILRight}%
 	\edef\sibuTotalSpace{\sibuCalcSpace{\intcalcSub{\sibuendx}{\sibubeginx}}}%
 	%\hspace*{\intcalcShr{\@tempcnta}sp}%
 	\ifnum\numexpr
-		\sibu@ishead>0\relax % 行頭
+		\sibu@ishead>0\relax% 行頭
 		\typeout{sibu: pre: line head}%
 		%\setlength{\sibuspace}{0sp}%
 		\ifnum\numexpr
@@ -114,14 +118,13 @@
 			% 同一行：空白挿入
 				\typeout{sibu: pre: one line: \sibuTotalSpace sp will be inserted}%
 				\setlength{\sibuspace}{\sibuTotalSpace sp}%
-		%
-			\fi
+		\fi
 	\else
 		\sibuInsertSpace{\intcalcShr{\sibuTotalSpace} sp}%
 		\ifnum\numexpr
 			\sibuendy<\sibubeginy\relax % 別の行
 			% 別の行
-			\sibuInsertSpace{\fill}
+			\sibuInsertSpace{\fill}%
 			\typeout{sibu: pre: insert filler (beyond line)}%
 			%\setlength{\sibuspace}{0sp}%
 	%
@@ -129,8 +132,8 @@
 			\ifnum\numexpr
 				\sibu@isfinal>0\relax
 			% 同一行：末尾まで英字
-				%\sibuInsertSpace{\fill}
-				\sibuInsertSpace{\sibuspace}
+				%\sibuInsertSpace{\sibuspace}%
+				\sibuInsertSpace{\fill}%
 				\typeout{sibu: pre: insert filler (to the end of line)}%
 				\setlength{\sibuspace}{0sp}%
 			\else
@@ -141,7 +144,9 @@
 			\fi
 		\fi
 	\fi
+	%\nobreak
 	\sibusavepos{begin}%
+	%\nobreak
 }
 
 \newcommand{\AJspace}{%
