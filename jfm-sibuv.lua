@@ -18,6 +18,7 @@ luatexja.jfont.define_jfm {
       glue = {
 	 -- [index] = { width, stretch, shrink, [priority, [ratio]] }
 	 [0] = { 0.5 , 0.0, 0.0 },
+	 [20] = { 0.0 , 0.0, 0.0 },
 	 [1] = { 0.5 , 0.0, 0.0, 1},
 	 [11] = { 0.5 , 0.0, 0.0, 1},
 	 [2] = {0, 0, 0},
@@ -297,6 +298,16 @@ luatexja.jfont.define_jfm {
 	 [8] = 0.0
       }
    },
+
+   [20] = { -- ゆすり点
+      align = 'left', left = 0.25, down = -0.50,
+      width = 0.0, height = 0.50, depth = 0.50, italic=0.0,
+      chars = {'〻'},
+      glue = {
+	 [0] = { 0.5, 0.0, 0.0},
+      }
+   },
+
 
    [98] = { -- par頭
       chars = {'parbdd'},
