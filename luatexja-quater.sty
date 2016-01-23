@@ -124,7 +124,7 @@
 		\ifnum\numexpr
 			\sibuendy<\sibubeginy\relax % 別の行
 			% 別の行
-			\sibuInsertSpace{\fill}%
+			\sibuInsertSpace{0pt plus 1fi}%
 			\typeout{sibu: pre: insert filler (beyond line)}%
 			%\setlength{\sibuspace}{0sp}%
 	%
@@ -133,7 +133,7 @@
 				\sibu@isfinal>0\relax
 			% 同一行：末尾まで英字
 				%\sibuInsertSpace{\sibuspace}%
-				\sibuInsertSpace{\fill}%
+				\sibuInsertSpace{0pt plus 1fi}%
 				\typeout{sibu: pre: insert filler (to the end of line)}%
 				\setlength{\sibuspace}{0sp}%
 			\else
