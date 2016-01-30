@@ -197,10 +197,53 @@
 	\allowbreak
 \JAspace#1\AJspace}
 
+\newcommand{\sibuNoalignJ}[1]{%
+	\sibuNoalign{
+		\hspace*{-\intcalcShl{\value{sibugap}}sp}%
+		#1%
+		\hspace*{-\value{sibugap}sp}%
+	}%
+}
+
+\newcommand{\sibuAddition}[1]{%
+		%\mbox{}%
+		\hspace*{-\value{sibugap}sp}%
+		%\hspace*{0sp}%
+		\raisebox{0.5\zw}{%
+			\rlap{%
+			\ltjsetparameter{kanjiskip={0pt plus 0.4pt minus 0.4pt}, xkanjiskip={0.25\zw plus 1pt minus 1pt}}%
+			\fontsize{\intcalcShr{\f@size} pt}{0pt}\selectfont%
+			#1%
+		}
+		}%
+		\hspace*{-\value{sibugap}sp}%
+		%\mbox{}%
+}
+
 %--------------------------------------- setting for luatexja-ruby
 
 \ltjsetruby{
-	fontcmd=\addjfontfeatures{Style=Ruby, JFM=ujisv}
+	%fontcmd=\addjfontfeatures{Style=Ruby, TateFeatures = { JFM=ujisv}},
+	fontcmd={\addjfontfeatures{Style=Ruby, TateFeatures = { JFM=propv}}%
+		\ltjsetparameter{kanjiskip={0pt plus 0.4pt minus 0.4pt}, xkanjiskip={0.25\zw plus 1pt minus 1pt}}
+		\fontsize{\intcalcShl{\f@size} pt}{0pt}
+	},
+	pre=2,
+	post=2,
+	%mode=13,
+	mode=9,
+	stretch={1}{0}{1},
+	%stretch={0}{0}{0},
+	%stretchruby={1}{2}{1},
+	%stretchruby={0}{0}{0},
+	maxmargin=1,
+	size=0.25,
+}
+
+\newcommand{\siburuby}[3][]{%
+	\sibuNoalignJ{%
+		\ltjruby[#1]{#2}{#3}%
+	}%
 }
 
 %--------------------------------------- setting for luatexja-ruby
