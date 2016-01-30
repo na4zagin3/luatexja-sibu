@@ -67,18 +67,125 @@
 %\newfontfamily\germanfontsf[Script=Latin,Language=German,Mapping=tex-text,CharacterVariant={11,13,14}]{UnifrakturCook}
 %\setsansfont[Script=Latin,Language=German,Mapping=tex-text,CharacterVariant={11,13,14}]{UnifrakturCook}
 
+\sisetup{math-micro=\text{µ},text-micro=µ,retain-explicit-plus,output-decimal-marker=.}
+\directlua{dofile "test.lua"}
 
 \begin{document}
-\addjfontfeatures{TateFeatures = { JFM=sibuv }}
+
 \sibuLineLength{20}
 
-\sibuNoalign{Lua\LaTeX}で二分アケ組してみるテスト。
+\makeatletter
+\makeatother
+
+\jfont\tradgt={file:KozMinPr6N-Regular.otf:script=latn;+trad;-kern;jfm=ujis} at 14pt
+%\tradgt
+
+\sibuNoalign{Lua\LaTeX}で「二分アケ組」するパッケージ
+
+\section{目的}
+「四分アケ組」は明治期の本に屡〻用ゐられてゐた組方であって各〻の漢字・假名の間に四分のアキが入ってゐるものである。
+また、各漢字・仮名は極力枡目の上に配置され、約物等の都合で適わない時は、前後平假名の字間を調整し、
+枡目の上から外れる文字数を極力少なくするものである。
+しかし、実現が難しいので、先ず「二分アケ組」を実現することにする。
+
+また、旧字体の方が見映えがするが、直接入力するのは手間である為、新字體より機械的に変換できる字は、自動的に変換する。
+
+\section{方針}
+
+\sibuNoalign{JFM}によって、各〻の漢字・假名の間に\sibuNoalign{$\frac{1}{2}\,\mathrm{zw} \pm 0\,\mathrm{pt}$}のグルーを挿入することによって
+二分アケ組を実現する。
+つまりは、漢字・假名は、行頭から測って、\sibuNoalign{$n\left(1 + \frac{1}{2}\right)\mathrm{zw} - \frac{1}{2}\,\mathrm{zw}$}より配置される。（ここで\sibuNoalign{$n$}は自然数。）
+
+\sibuNoalign{Latin}文字等の自然に揃はない文字列は適当なスキップを挿入し、揃へる。
+
+\section{課題}
+\begin{itemize}
+		\item 複数の約物が並んだ時の処理。特に中黒や括弧の組み合はせ。
+			\begin{itemize}
+					\item \sibuNoalign{\fbox{」・「}}は
+					\sibuNoalign{\fbox{」\hspace{0.25\zw}・\hspace{0.25\zw}「}}となるべきか？
+					\sibuNoalign{\texttt{luatexja-adjust.sty}}で実現できるかもしれない？
+					\item 漢文に於て、送り假名と句点が同一の漢字に配されてゐる時、句点が漢字の右に置かれてゐる本を見た。
+			\end{itemize}
+		\item 右下・左下に附る假名の扱ひ。現在は利用できない。
+		\item 棒引きの扱ひ。棒引の直前で改行できるのか、又は、出来ないのか？
+		\item 二\sibuAddition{ノ}字の字形。
+		\item 句点\sibuNoalign{\fbox{。}}の後の空白。現在は、句点も読点と同様に漢字・假名の間に挿入されるが、
+			  四分アケ組では句点の後に空白が入るのが普通。
+			%句点の後が一字空く組み方もある。
+			\begin{itemize}
+					\item \sibuNoalign{\fbox{あ。あ}}と
+					\sibuNoalign{\fbox{あ。　あ}}と撰べる様にしたい。
+			\end{itemize}
+		\item クラスファイル。\sibuNoalign{\texttt{ltjtarticle.cls}}の設定は二分・四分アケ組で不都合があるので、修正する。
+			では、が適さないので、修正する。
+			\begin{itemize}
+					\item 見ての通りインデント量が不正。
+					\item 揃へるのが困難である環境では、二分・四分アケ組を止めるべきか？
+			\end{itemize}
+		\item \sibuNoalign{Polyglossia}と組み合はせた際に、\sibuNoalign{\texttt{\textbackslash textgreek}}等の命令を、自動的に
+			\sibuNoalign{\texttt{\textbackslash sibuNoalign}}で囲って欲しい。
+		\item \sibuNoalign{\texttt{\textbackslash sibuNoalign}}中で\sibuNoalign{\texttt{\textbackslash verb}}を使ふと、
+			\begin{quote}\ttfamily
+! TeX capacity exceeded, sorry [input stack size=5000].\\
+\par~->\@restorepar~\\
+~~~~~~~~~~~~~~~~~~~~\textbackslash clubpenalty~\textbackslash @clubpenalty~\textbackslash everypar~\{\}\textbackslash par~\textbackslash @endpefalse\\
+l.89~~~~~~~~~~~~~~~~~~~~~~\textbackslash sibuNoalign{\textbackslash verb!\textbackslash sibuNoalign!}
+			\end{quote}
+			と云ったエラーが出る。
+\end{itemize}
+
+\section{用例調査}
+永続的識別子
+info:ndljp/pid/885483
+
+タイトル
+新編浮雲. 第３編
+
+著者
+二葉亭四迷 著
+
+出版者
+金港堂
+
+出版年月日
+明20-24
+
+三十九頁に英文あり。
+英文の前は「句点＋全角アキ」、
+後は行末に合せる為に「假名＋二分アキ＋假名＋二分アキ＋假名＋読点＋四分アキ＋假名」となっている
+
+\begin{tabular}{cccccccccccccccccccccccccccc}
+	& 字	& 句点	& 読点	& 開鉤	& 閉鉤	& 開丸	& く	&三点&疑問&行末\\
+	字	& 四分	&無		&無		&無		&無		&		&四分	&四分&四分&無\\
+	句点&全角	&		&※1		&二分四分&無	&		&		\\
+	読点&無		&		&		&全角	&無		&		&		\\
+	開鉤&無		&		&		&		&		&		&		\\
+	閉鉤&無		&		&※2		&		&		&		&		\\
+	く	&二分	&		&無		&無		&		&		&		\\
+	三点&二分	&		&		&		&無		&		&		\\
+	疑問&全角四分&		&		&		&無		&		&		\\
+\end{tabular}
+
+\begin{description}
+	\item[字] 漢字・假名：全角
+	\item[句点] 句点：二分？
+	\item[読点] 読点：四分
+	\item[開鉤・閉鉤] 開鉤括弧・閉鉤括弧：四分
+	\item[開丸・閉丸] 開丸括弧・閉丸括弧：？
+	\item[疑問] 疑問符：全角
+	\item[く] く\sibuAddition{ノ}字点：倍角
+	\item[三点] 三点リーダ・ダッシュ：倍角
+	\item[※1] 五十頁にて%「假名＋閉二重鉤括弧（二分幅）＋二分アキ＋句点＋假名」の用例あり。
+	\item[※2] 三十八頁にて「假名＋閉二重鉤括弧（二分幅）＋二分アキ＋句点＋假名」の用例あり。
+\end{description}
+
 
 ああああああああああ
 あああああああああ\allowbreak あ
-あああああ\\
+あああ\sibuNoalignJ{あ}あ\\
 あ。あ。あ。あ。あ。あ。あ。あ。あ。あ。
-あ。あ。あ。あ。あ。あ。あ。あ。あ。あ。
+あ。あ。あ。あ。あ。\sibuNoalignJ{あ。}あ。あ。あ。あ。
 
 あ「あ」あ「あ」あ「あ」あ「あ」あ「あ」
 あ「あ」あ「あ」あ「あ」あ「あ」あ「あ」
@@ -86,6 +193,8 @@
 
 あ「あ」「あ」「あ」「あ」「あ」「あ」「あ」「あ」「あ」「あ」
 「あ」「あ」「あ」（ルビも\ltjruby{鉤|括|弧}{かぎ|かっ|こ}も\ltjruby{修|正}{しう|せい}が\ltjruby{必|要}{ひつ|えう}）
+
+「あ」「あ」「あ」（ルビも\siburuby{鉤|括|弧}{あ||いう}も\siburuby{修|正}{あえあ|}が\ltjruby{必|要}{|}）
 
 \sibuNoalign{Lua\LaTeX}で
 \sibuNoalign{JFM}を
@@ -120,7 +229,7 @@
 \widthof{あ「あ}
 
 ああああああああああ%
-ああああああああああ%
+あ\sibuNoalign{あ}ああああああああ%
 ああああああああああ%
 
 あ「い」う「えお。」。
@@ -148,6 +257,10 @@
 あああ、。「ああ——あ。。あああああ
 
 あああ？あ？「ああ？——あ。。あああああ
+
+\makeatletter
+各〻各{\fontsize{\intcalcShr{\f@size} pt}{0pt}\selectfont 〻}各〻各〻各〻各〻
+\makeatother
 
 近年，\sibuNoalign{IoT}アプリケーションなど，ますます多様なアプリケーションが開発されている．それらの組込みシステムは，ポータブルであることが重要な設計要件\sibuNoalign{IoT}であり\sibuNoalign{IoT}，そのために小型かつ低消費電力な回路設計が求められる．また，収集したデータの活用方法が，システム運用後に変更される可能性があるため，ある程度の汎用性を持つプロセッサを用いて構築されるべきである．
 
