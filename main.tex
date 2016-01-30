@@ -1,11 +1,14 @@
-\documentclass[12pt,landscape]{ltjtarticle}
+\documentclass[12pt,landscape,hiragino-pro]{ltjtarticle}
 
 \usepackage{fontspec}
 \usepackage{calc}
+%\usepackage[hiragino-pro]{luatexja-preset}
 \usepackage{luatexja-fontspec}
 \usepackage{luatexja-ruby}
 \ExplSyntaxOff
-\usepackage[ipa,deluxe]{luatexja-preset}
+
+\defaultjfontfeatures{TateFeatures = { JFM=sibuv }, CJKShape=Traditional}
+\usepackage[hiragino-pron,deluxe]{luatexja-preset}
 \usepackage{comment}
 \usepackage{siunitx}
 
@@ -21,11 +24,35 @@
 \newcommand{\rsubleq}{subleq\textsubscript{⊖}}
 \newcommand{\Rsubleq}{Subleq\textsubscript{⊖}}
 
-%\sibuLineLength{20}
 
-\setmainjfont[TateFeatures = { JFM=sibuv }]{IPAMincho}
+\setmainjfont[TateFeatures = { JFM=sibuv },
+	BoldFont=HiraKakuProN-W6,
+	BoldFeatures={AltFont={
+			{Range="4E00-"9FFF, Font={Baekmuk Dotum},TateFeatures = { JFM=sibuv }},
+			{Range="3400-"4DBF, Font={Baekmuk Dotum},TateFeatures = { JFM=sibuv }},
+	}},
+	UprightFeatures={AltFont={
+			{Range="4E00-"9FFF, Font={Baekmuk Batang},TateFeatures = { JFM=sibuv }},
+			{Range="3400-"4DBF, Font={Baekmuk Batang},TateFeatures = { JFM=sibuv }},
+	}},TateFeatures = { JFM=sibuv }%,FeatureFile=test.fea, RawFeature=+test;
+	%BoldFeatures={Altfont={{Range=, Font={}}}},
+]{HiraMinProN-W3}
+\setmainjfont[TateFeatures = { JFM=sibuv },
+	BoldFont=HiraKakuProN-W3,
+	BoldFeatures={AltFont={
+			{Range="4E00-"9FFF, Font={Baekmuk Dotum},TateFeatures = { JFM=sibuv }},
+			{Range="3400-"4DBF, Font={Baekmuk Dotum},TateFeatures = { JFM=sibuv }},
+	}},
+	UprightFeatures={AltFont={
+			{Range="4E00-"9FFF, Font={Baekmuk Batang},TateFeatures = { JFM=sibuv }},
+			{Range="3400-"4DBF, Font={Baekmuk Batang},TateFeatures = { JFM=sibuv }},
+	}},TateFeatures = { JFM=sibuv }%,FeatureFile=test.fea, RawFeature=+test;
+	%BoldFeatures={Altfont={{Range=, Font={}}}},
+]{MSMincho}
+
 %\ltjsetparameter{kanjiskip=0.25\zw plus 0pt minus 0pt, xkanjiskip=0.25\zw plus 0.75\zw minus 0.25\zw}
 \ltjsetparameter{kanjiskip=0.5\zw plus 0pt minus 0pt, xkanjiskip=0\zw plus 0pt minus 0pt}
+%\ltjsetparameter{kanjiskip=0.0\zw plus 0pt minus 0pt, xkanjiskip=0\zw plus 0pt minus 0pt}
 \setlength{\parindent}{\value{sibuunit}sp}
 %\ltjsetparameter{kanjiskip=0.5\zw plus 0pt minus 0pt, xkanjiskip=0.5\zw plus 2\zw minus 0.5\zw}
 
